@@ -2,11 +2,11 @@ package com.example.sampleapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
+
 
 public class login_email extends AppCompatActivity {
     TextInputEditText logemail;
@@ -43,7 +43,10 @@ public class login_email extends AppCompatActivity {
 
                 Intent intent = new Intent(login_email.this, login_pass.class);
                 intent.putExtra("text", text);
-                startActivity(intent);}
+                Log.d("login_email_to_logpass","success");
+                startActivity(intent);
+                finish(); }
+
 
 
 

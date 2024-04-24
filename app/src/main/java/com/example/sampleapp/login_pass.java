@@ -3,6 +3,7 @@ package com.example.sampleapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,42 +18,46 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.protobuf.StringValue;
 
 public class login_pass extends AppCompatActivity {
     EditText logeemail;
     TextInputEditText logpass;
     TextView reglink;
     Button logbutton;
-    FirebaseAuth mAuth;
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), demo_mainactivity.class);
-            startActivity(intent);
+    FirebaseAuth duth;
+    FirebaseFirestore db;
+    String text;
 
-            // Finish the current activity (optional)
-            finish();
-        }
-    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_pass);
         logpass=findViewById(R.id.logpass);
+        db = FirebaseFirestore.getInstance();
+        logbutton=findViewById(R.id.logbutton);
+        duth=FirebaseAuth.getInstance();
+        reglink=findViewById(R.id.reglink);
 
 
         Intent intent = getIntent();
         if (intent != null) {
-            String text = intent.getStringExtra("text");
+             text = intent.getStringExtra("text");}
+
 
             // Now you can use the text as needed
             // For example, set it to a TextView in this activity
@@ -60,9 +65,10 @@ public class login_pass extends AppCompatActivity {
             logeemail.setText(text);
 
 
-        logbutton=findViewById(R.id.logbutton);
-        mAuth=FirebaseAuth.getInstance();
-        reglink=findViewById(R.id.reglink);
+
+
+
+
         reglink.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -92,20 +98,16 @@ public class login_pass extends AppCompatActivity {
                     return;
                 }
                 else{
-                mAuth.signInWithEmailAndPassword(email, password)
+                duth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
 
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Toast.makeText(getApplicationContext(),"login successfully",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), demo_mainactivity.class);
-                                    startActivity(intent);
+                                    FirebaseUser user = duth.getCurrentUser();
+                                    chkuser(user.getUid());
 
-                                    // Finish the current activity (optional)
-                                    finish();
 
                                 }
                                 else {
@@ -124,5 +126,58 @@ public class login_pass extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+}
+public void chkuser(String uid)
+{
+    if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+        DocumentReference df = db.collection("users_details").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+
+                        Boolean isadmin = documentSnapshot.getBoolean("isadmin");
+                        Boolean isUser = documentSnapshot.getBoolean("isUser");
+                        Log.d("loggingadmin_throughlogpass "+ isadmin, "success" );
+                        if (Boolean.TRUE.equals(isadmin)) {
+                            // Admin user
+                            Intent intent = new Intent(getApplicationContext(), demoadmin.class);
+
+                            startActivity(intent);
+                            finish();
+                            Toast.makeText(getApplicationContext(), "Admin login successful", Toast.LENGTH_SHORT).show();
+
+
+
+                        } else if (Boolean.TRUE.equals(isUser)) {
+                            Intent intent = new Intent(getApplicationContext(), demo1_mainactivity.class);
+                            Log.d("logginguser_throughlogpass "+ isadmin, "success" );
+
+                            startActivity(intent);
+                            finish();
+                            Toast.makeText(getApplicationContext(), "User login successful", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            // User is neither admin nor regular user
+                            Toast.makeText(getApplicationContext(), "User type unknown", Toast.LENGTH_SHORT).show();
+                        }
+
+
+
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Intent intent = new Intent(getApplicationContext(), login_email.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                });
+
     }
 }}

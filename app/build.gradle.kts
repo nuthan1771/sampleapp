@@ -30,12 +30,22 @@ android {
 }
 
 dependencies {
-    implementation("com.google.firebase:firebase-auth:22.3.1")
+
+    implementation (libs.play.services.maps)
+    implementation (libs.firebase.firestore)
+
+        implementation(libs.recyclerview)
+        implementation(libs.recyclerview.selection)
+
+
+
+    implementation(libs.firebase.auth)
     implementation(libs.material)
     implementation(libs.appcompat)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

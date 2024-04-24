@@ -22,31 +22,36 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class register extends AppCompatActivity {
     TextInputEditText regpass,regemail;
     Button regbutton;
      TextView loglink;
-     FirebaseAuth mAuth;
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), demo_mainactivity.class);
-            startActivity(intent);
+     FirebaseAuth buth;
+    FirebaseFirestore db;
 
-            // Finish the current activity (optional)
-            finish();
-        }
-    }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
-        mAuth=FirebaseAuth.getInstance();
+        buth=FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+
+
+
+
         regpass=findViewById(R.id.regpass);
         regemail=findViewById(R.id.regemail);
         regbutton=findViewById(R.id.regbutton);
@@ -57,6 +62,7 @@ public class register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), login_email.class);
+                Log.d("register_login_email","success");
                 startActivity(intent);
 
                 // Finish the current activity (optional)
@@ -83,19 +89,27 @@ public class register extends AppCompatActivity {
                     Toast.makeText(register.this, "enter pass", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mAuth.createUserWithEmailAndPassword(email, password)
+                buth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Toast.makeText(register.this, "registered successfully", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), login_email.class);
-                                    startActivity(intent);
+                                    FirebaseUser user = buth.getCurrentUser();
+                                    Toast.makeText(getApplicationContext(),"registered successfully",Toast.LENGTH_SHORT).show();
 
-                                    // Finish the current activity (optional)
+                                    Intent intent = new Intent(getApplicationContext(), login_email.class);
+                                    Log.d("register_login_email1","success");
+                                    startActivity(intent);
                                     finish();
+                                    assert user != null;
+                                    DocumentReference df = db.collection("users_details").document(user.getUid());
+                                    Map<String, Object> userinfo = new HashMap<>();
+                                    userinfo.put("email", regemail.getText().toString());
+                                    userinfo.put("pass", regpass.getText().toString());
+                                    userinfo.put("isUser", true);
+                                    userinfo.put("isadmin", false);
+                                    df.set(userinfo);
                                 }
                                 else
                                 {

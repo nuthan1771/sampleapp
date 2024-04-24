@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/grd1"
-    tools:context=".demo_mainactivity">
+    tools:context=".demoadmin">
 
     <Button
-        android:id="@+id/logoutbutton"
+        android:id="@+id/adminlogoutbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="272dp"
         android:backgroundTint="#FFFFFF"
         android:text="logout"
         android:textColor="#2a57af"
@@ -20,18 +19,22 @@
         app:iconTint="#2A57AF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.008"
         app:rippleColor="#2A57AF" />
 
-    <TextView
-        android:id="@+id/usernam"
-        android:layout_width="332dp"
-        android:layout_height="37dp"
-        android:text="hello there"
-        android:textColor="@color/white"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="663dp"
+        android:background="@drawable/crcl3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
