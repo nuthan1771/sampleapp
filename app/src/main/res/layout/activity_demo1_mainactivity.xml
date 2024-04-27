@@ -12,15 +12,16 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="405dp"
-        android:layout_height="241dp"
+        android:layout_width="360dp"
+        android:layout_height="212dp"
+        android:background="@drawable/crectr_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.323"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.353"
-        app:srcCompat="@drawable/tracker" />
+        app:layout_constraintVertical_bias="0.348"
+        app:srcCompat="@drawable/tracker"
+        tools:srcCompat="@drawable/jhgvfdsajdvhsgf" />
 
     <Button
         android:id="@+id/logoutbutton"
