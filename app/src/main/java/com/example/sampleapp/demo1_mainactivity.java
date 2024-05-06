@@ -89,7 +89,7 @@ public class demo1_mainactivity extends AppCompatActivity {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         logoutbutton = findViewById(R.id.logoutbutton);
-        map = findViewById(R.id.map);
+
         futh = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user1 = futh.getCurrentUser();
@@ -168,13 +168,14 @@ public class demo1_mainactivity extends AppCompatActivity {
 //            }
 //        });
 
+
+
+        createLocationRequest(); // Call to create location request
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        createLocationRequest(); // Call to create location request
     }
 
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,7 @@ public class login_email extends AppCompatActivity {
     TextInputEditText logemail;
     ImageButton lognextbutton;
     String text;
+    TextView reglink1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class login_email extends AppCompatActivity {
         lognextbutton=findViewById(R.id.lognextbutton);
 
         logemail=findViewById(R.id.logemail);
+        reglink1=findViewById(R.id.reglink1);
 
 
 
@@ -52,6 +55,17 @@ public class login_email extends AppCompatActivity {
 
 
 
+        });
+        reglink1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(login_email.this, register.class);
+                startActivity(intent);
+
+                // Finish the current activity (optional)
+                finish();
+            }
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

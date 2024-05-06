@@ -6,90 +6,63 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/eb361a056b1eb9a91265ec81e15fabf9"
+    android:background="@drawable/crectr_shape"
     android:padding="0dp"
     tools:context=".login_pass">
 
-    <EditText
-        android:id="@+id/logeemail"
-        android:layout_width="235dp"
-        android:layout_height="77dp"
-        android:layout_margin="0dp"
-        android:background="@drawable/crectr_shape1"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp"
-        android:textColor="#2A57AF"
-        android:textColorLink="#2A57AF"
-        android:visibility="invisible"
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:padding="0dp"
+        android:tint="#66807777"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.573"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logbutton"
-        tools:visibility="invisible" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.971"
+        app:srcCompat="@drawable/track_bg" />
 
     <Button
         android:id="@+id/logbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
+
+        android:backgroundTint="#901be7"
         android:text="login"
-        android:textColor="#2a57af"
+        android:textColor="@color/white"
         android:textColorLink="#2A57AF"
         app:iconTint="#2A57AF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.072"
+        app:layout_constraintVertical_bias="0.05"
         app:rippleColor="#2A57AF" />
+
 
     <TextView
         android:id="@+id/reglink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="clickToRegister"
-        android:textColor="#FFFFFF"
+        android:textColor="#901be7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintHorizontal_bias="0.837"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="352dp"
-        android:layout_height="153dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.077"
-        app:srcCompat="@drawable/logo3"
-        tools:srcCompat="@drawable/img" />
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="196dp"
-        android:layout_height="21dp"
-        android:text="enter password ..."
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.293" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="335dp"
         android:layout_height="55dp"
-        android:background="@drawable/crectr_shape"
+        android:layout_marginStart="23dp"
+        android:background="@drawable/margin"
+        android:backgroundTint="#66CCC2C2"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="5dp"
@@ -98,18 +71,17 @@
         android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.381"
+        app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.442"
+        app:layout_constraintVertical_bias="0.22"
         tools:visibility="visible">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:background="@drawable/crectr_shape1"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="#2A57AF">
+            app:passwordToggleTint="#901BE7">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/logpass"
@@ -120,8 +92,9 @@
                 android:hint="password"
                 android:inputType="textPassword"
                 android:paddingLeft="10dp"
-                android:textColor="#2A57AF"
-                android:textColorLink="#2A57AF" />
+                android:textColor="#901BE7"
+                android:textColorHint="#901BE7"
+                android:textColorLink="#901BE7" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 

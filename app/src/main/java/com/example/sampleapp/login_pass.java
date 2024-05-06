@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.protobuf.StringValue;
 
 public class login_pass extends AppCompatActivity {
-    EditText logeemail;
+
     TextInputEditText logpass;
     TextView reglink;
     Button logbutton;
@@ -61,8 +61,7 @@ public class login_pass extends AppCompatActivity {
 
             // Now you can use the text as needed
             // For example, set it to a TextView in this activity
-            logeemail=findViewById(R.id.logeemail);
-            logeemail.setText(text);
+
 
 
 
@@ -85,7 +84,8 @@ public class login_pass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email,password;
-                email=String.valueOf(logeemail.getText());
+//                email=String.valueOf(logeemail.getText());
+                email=text;
                 password=String.valueOf(logpass.getText());
                 if(TextUtils.isEmpty(email))
                 {

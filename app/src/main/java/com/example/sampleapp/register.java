@@ -102,6 +102,26 @@ public class register extends AppCompatActivity {
                                     Log.d("register_login_email1","success");
                                     startActivity(intent);
                                     finish();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     assert user != null;
                                     DocumentReference df = db.collection("users_details").document(user.getUid());
                                     Map<String, Object> userinfo = new HashMap<>();
