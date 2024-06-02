@@ -3,6 +3,7 @@ package com.example.sampleapp;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
 public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
+
+
     static Context context;
     static ArrayList<Appuser> appuserArrayList;
+
 
     public myadapter(Context context, ArrayList<Appuser> appuserArrayList) {
         this.context = context;
@@ -38,6 +49,8 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
         holder.email.setText(usr.email);
         holder.latitude.setText(usr.latitude);
         holder.longitude.setText(usr.longitude);
+        holder.setEmail(usr.email);
+
 
     }
 
@@ -46,20 +59,32 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
         return appuserArrayList.size();
     }
 
-    public static class myviewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public   class myviewholder extends RecyclerView.ViewHolder implements View.OnClickListener,OnMapReadyCallback{
         TextView email, latitude, longitude;
+        MapView mapView;
+        GoogleMap map;
+        private String useremail;
+
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
 
             View track;
+            String useremail;
 
 
             email = itemView.findViewById(R.id.email);
+
             longitude = itemView.findViewById(R.id.longitude);
             latitude = itemView.findViewById(R.id.latitude);
+            mapView = itemView.findViewById(R.id.mapView);
+            mapView.onCreate(null);
+            mapView.getMapAsync((OnMapReadyCallback) this);
             track = itemView.findViewById(R.id.track);
             track.setOnClickListener(this);
+        }
+        public void setEmail(String email) {
+            this.useremail = email;
         }
 
         @Override
@@ -70,6 +95,7 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
                     Appuser user = appuserArrayList.get(position);
                     String latitudeValue = user.getLatitude();
                     String longitudeValue = user.getLongitude();
+                    mapView.setVisibility(View.VISIBLE);
 
                     Uri gmmIntentUri = Uri.parse("geo:" + latitudeValue + "," + longitudeValue + "?q=" + latitudeValue + "," + longitudeValue + "(Label)");
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -82,6 +108,24 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
                 }
             }
         }
+
+        @Override
+        public void onMapReady(@NonNull GoogleMap googleMap)  {
+            map = googleMap;
+            int position = getBindingAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Appuser user = appuserArrayList.get(position);
+                String latitudeValue = user.getLatitude();
+                String longitudeValue = user.getLongitude();
+                Log.d("adapter2MapActivity", "Latitude: " + latitudeValue + ", Longitude: " + longitudeValue);
+                LatLng location = new LatLng(Double.parseDouble(latitudeValue), Double.parseDouble(longitudeValue));
+                 map.addMarker(new MarkerOptions().position(location).title(useremail));
+                Log.d("user email", email+":email");
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
+            }
+
+        }
+
 
     }
 
