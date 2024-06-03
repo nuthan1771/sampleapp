@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,14 +18,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sampleapp"
         tools:targetApi="31">
-        <activity
-            android:name=".demoadmin"
-            android:exported="false" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAi1FGiyFbXFIFvl3MqH8v2BAfHJLfHzbU" />
 
+        <activity
+            android:name=".MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps"
+            android:parentActivityName=".demoadmin"
+            />
+        <activity
+            android:name=".demoadmin"
+            android:exported="false" />
         <activity
             android:name=".register"
             android:exported="false" />

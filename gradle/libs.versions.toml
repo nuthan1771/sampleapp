@@ -17,6 +17,7 @@ playServicesMaps = "18.2.0"
 recyclerview = "1.3.2"
 recyclerviewSelection = "1.1.0"
 secretsGradlePlugin = "2.0.1"
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 [libraries]
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
@@ -39,4 +40,5 @@ secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.se
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
 

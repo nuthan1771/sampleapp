@@ -23,8 +23,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.auth.User;
+
 
 import java.util.ArrayList;
 
@@ -54,6 +53,7 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
         holder.latitude.setText(usr.latitude);
         holder.longitude.setText(usr.longitude);
         holder.setEmail(usr.email);
+        holder.setudi(usr.id);
 
 
     }
@@ -71,6 +71,7 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
        private MapView mapView;
         private GoogleMap map;
         private String useremail;
+        String uid;
 
 
         public myviewholder(@NonNull View itemView) {
@@ -78,6 +79,7 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
 
             View track;
             String useremail;
+
 
 
             email = itemView.findViewById(R.id.email);
@@ -95,6 +97,9 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
         public void setEmail(String email) {
             this.useremail = email;
         }
+        public void setudi(String id) {
+            this.uid = id;
+        }
 
         @Override
         public void onClick(View v) {
@@ -104,16 +109,21 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
                     Appuser user = appuserArrayList.get(position);
                     String latitudeValue = user.getLatitude();
                     String longitudeValue = user.getLongitude();
-                    mapView.setVisibility(View.VISIBLE);
-
-                    Uri gmmIntentUri = Uri.parse("geo:" + latitudeValue + "," + longitudeValue + "?q=" + latitudeValue + "," + longitudeValue + "(Label)");
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    mapIntent.setPackage("com.google.android.apps.maps");
-                    if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
-                        context.startActivity(mapIntent);
-                    } else {
-                        Toast.makeText(context, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
-                    }
+                    Intent intent = new Intent(context, MapsActivity.class);
+                    intent.putExtra("latitude", latitudeValue);
+                    intent.putExtra("longitude", longitudeValue);
+                    intent.putExtra("email", useremail);
+                    intent.putExtra("id", uid);
+                    Log.d("uuuiddd", "uid "+uid+useremail);
+                    context.startActivity(intent);
+//                    Uri gmmIntentUri = Uri.parse("geo:" + latitudeValue + "," + longitudeValue + "?q=" + latitudeValue + "," + longitudeValue + "(Label)");
+//                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+//                    mapIntent.setPackage("com.google.android.apps.maps");
+//                    if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
+//                        context.startActivity(mapIntent);
+//                    } else {
+//                        Toast.makeText(context, "Google Maps app not installed", Toast.LENGTH_SHORT).show();
+//                    }
                 }
             }
         }
@@ -127,11 +137,11 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
                 return;
             }
             map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(true);
+//            map.getUiSettings().setMyLocationButtonEnabled(true);
+
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-
-                map.getUiSettings().setZoomControlsEnabled(true);
+//           map.setMyLocationEnabled(true);
                 map.getUiSettings().setMapToolbarEnabled(true);
                 map.getUiSettings().setCompassEnabled(true);
                 map.getUiSettings().setZoomControlsEnabled(true);
@@ -160,6 +170,32 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
 
 
         }
+//@Override
+//public void onMapReady(GoogleMap googleMap) {
+//    map = googleMap;
+//
+//
+//
+//
+//    // Add a marker in Sydney and move the camera
+//    map.clear();
+//    map.getUiSettings().setZoomControlsEnabled(true);
+//    map.getUiSettings().setMapToolbarEnabled(true);
+//    map.getUiSettings().setCompassEnabled(true);
+//    Log.d("location buttonenabled", map.getUiSettings().isMyLocationButtonEnabled() + ":email");
+//
+//    LatLng sydney = new LatLng(-34, 151);
+//    map.addMarker(new MarkerOptions().position(sydney).title("sydney"));
+//    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//        return;
+//    }
+//    map.setMyLocationEnabled(true);
+////        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//
+//    map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12));
+//
+//
+//}
         public void onMyLocationClick(@NonNull Location location) {
             Toast.makeText(context, "Current location:\n" + location, Toast.LENGTH_LONG).show();
         }
