@@ -48,7 +48,7 @@ public class login_email extends AppCompatActivity {
                 intent.putExtra("text", text);
                 Log.d("login_email_to_logpass","success");
                 startActivity(intent);
-                finish(); }
+                 }
 
 
 
