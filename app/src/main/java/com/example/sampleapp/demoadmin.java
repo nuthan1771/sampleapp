@@ -1,6 +1,9 @@
 package com.example.sampleapp;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -11,8 +14,12 @@ import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -40,6 +47,7 @@ public class demoadmin extends AppCompatActivity {
     FirebaseAuth euth;
     FirebaseFirestore dbu;
     Button adminlogoutbutton;
+    Context context;
 
 
 
@@ -52,7 +60,17 @@ public class demoadmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_demoadmin);
+        ActivityResultLauncher<String[]> locationPermissionRequest =
+                registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                    // Handle permission results
+                });
 
+        locationPermissionRequest.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        });
+
+          context=this;
         euth = FirebaseAuth.getInstance();
         dbu = FirebaseFirestore.getInstance();
 
@@ -77,6 +95,7 @@ public class demoadmin extends AppCompatActivity {
                 Log.d("demoadmin_to_logemail ", "success" );
                 startActivity(intent);
                 finish();
+
             }
         });
 
@@ -107,7 +126,9 @@ public class demoadmin extends AppCompatActivity {
                                 appuserArrayList.add(dc.getDocument().toObject(Appuser.class));
                             }
                             else if (dc.getType()==DocumentChange.Type.MODIFIED) {
+
                                 appuserArrayList.clear();
+//
                                 appuserArrayList.add(dc.getDocument().toObject(Appuser.class));
 
                             }

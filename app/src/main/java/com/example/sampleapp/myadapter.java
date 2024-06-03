@@ -2,6 +2,8 @@ package com.example.sampleapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,8 +31,8 @@ import java.util.ArrayList;
 public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
 
 
-    static Context context;
-    static ArrayList<Appuser> appuserArrayList;
+    Context context;
+    ArrayList<Appuser> appuserArrayList;
 
 
     public myadapter(Context context, ArrayList<Appuser> appuserArrayList) {
@@ -59,10 +63,13 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
         return appuserArrayList.size();
     }
 
-    public   class myviewholder extends RecyclerView.ViewHolder implements View.OnClickListener,OnMapReadyCallback{
+    public class myviewholder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            GoogleMap.OnMyLocationButtonClickListener,
+            GoogleMap.OnMyLocationClickListener,
+            OnMapReadyCallback {
         TextView email, latitude, longitude;
-        MapView mapView;
-        GoogleMap map;
+       private MapView mapView;
+        private GoogleMap map;
         private String useremail;
 
 
@@ -82,7 +89,9 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
             mapView.getMapAsync((OnMapReadyCallback) this);
             track = itemView.findViewById(R.id.track);
             track.setOnClickListener(this);
+
         }
+
         public void setEmail(String email) {
             this.useremail = email;
         }
@@ -110,21 +119,57 @@ public class myadapter extends RecyclerView.Adapter<myadapter.myviewholder> {
         }
 
         @Override
-        public void onMapReady(@NonNull GoogleMap googleMap)  {
+        public void onMapReady(@NonNull GoogleMap googleMap) {
             map = googleMap;
+            map.clear();
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+            map.setMyLocationEnabled(true);
+            map.getUiSettings().setMyLocationButtonEnabled(true);
             int position = getBindingAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
+
+                map.getUiSettings().setZoomControlsEnabled(true);
+                map.getUiSettings().setMapToolbarEnabled(true);
+                map.getUiSettings().setCompassEnabled(true);
+                map.getUiSettings().setZoomControlsEnabled(true);
                 Appuser user = appuserArrayList.get(position);
                 String latitudeValue = user.getLatitude();
                 String longitudeValue = user.getLongitude();
                 Log.d("adapter2MapActivity", "Latitude: " + latitudeValue + ", Longitude: " + longitudeValue);
                 LatLng location = new LatLng(Double.parseDouble(latitudeValue), Double.parseDouble(longitudeValue));
-                 map.addMarker(new MarkerOptions().position(location).title(useremail));
-                Log.d("user email", email+":email");
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
+                map.addMarker(new MarkerOptions().position(location).title(useremail));
+                Log.d("user email", email + ":email");
+
+
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16f));
+
+
+
+                Log.d("is location enabled", map.getUiSettings().isMyLocationButtonEnabled()+ ":email");
+
+
             }
 
+
+
+
+
+
+
         }
+        public void onMyLocationClick(@NonNull Location location) {
+            Toast.makeText(context, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public boolean onMyLocationButtonClick() {
+            Toast.makeText(context, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
 
 
     }
